@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane fx:id="rootNode" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: f46200;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.talky.controller.StartFormController">
+   <children>
+      <ImageView fitHeight="178.0" fitWidth="339.0" layoutX="31.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assests/talky_logo.png" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="110.0" layoutY="377.0" onAction="#btnStartOnAction" style="-fx-background-color: white; -fx-background-radius: 7;" text="Let's chat " textFill="#f46200">
+         <font>
+            <Font name="System Bold" size="25.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="114.0" layoutY="564.0" text="PlayTech talky version 1.0" textFill="WHITE" />
+   </children>
 </AnchorPane>

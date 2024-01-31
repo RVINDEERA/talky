@@ -10,51 +10,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: f46200;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.talky.controller.LoginFormController">
+<AnchorPane fx:id="rootNode" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: f46200;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.talky.controller.SignupFormController">
    <children>
       <ImageView fitHeight="148.0" fitWidth="248.0" layoutX="77.0" layoutY="122.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assests/talky_logo.png" />
          </image>
       </ImageView>
-      <Label layoutX="123.0" layoutY="250.0" text="WELCOME" textFill="WHITE">
+      <Label layoutX="150.0" layoutY="245.0" text="Are you new :) " textFill="WHITE">
          <font>
-            <Font name="KacstOne" size="30.0" />
+            <Font name="KacstOne" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="94.0" layoutY="311.0" prefHeight="24.0" prefWidth="72.0" text="Username" textFill="WHITE">
+      <Label layoutX="95.0" layoutY="322.0" prefHeight="24.0" prefWidth="104.0" text="Username*" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUserName" layoutX="62.0" layoutY="337.0" prefHeight="24.0" prefWidth="279.0" style="-fx-background-radius: 20;" />
-      <ImageView fitHeight="24.0" fitWidth="22.0" layoutX="65.0" layoutY="312.0" pickOnBounds="true" preserveRatio="true">
+      <TextField fx:id="txtUserName" layoutX="62.0" layoutY="348.0" prefHeight="24.0" prefWidth="279.0" style="-fx-background-radius: 20;" />
+      <ImageView fitHeight="24.0" fitWidth="22.0" layoutX="65.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assests/user.png" />
          </image>
       </ImageView>
-      <Label layoutX="93.0" layoutY="374.0" prefHeight="24.0" prefWidth="72.0" text="Password" textFill="WHITE">
+      <Label layoutX="93.0" layoutY="385.0" prefHeight="24.0" prefWidth="134.0" text="Password*" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ImageView fitHeight="24.0" fitWidth="22.0" layoutX="64.0" layoutY="375.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="24.0" fitWidth="22.0" layoutX="64.0" layoutY="386.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assests/password.png" />
          </image>
       </ImageView>
-      <PasswordField fx:id="txtPassword" layoutX="61.0" layoutY="400.0" prefHeight="24.0" prefWidth="279.0" style="-fx-background-radius: 20;" />
-      <Label layoutX="154.0" layoutY="523.0" text="Are you new :)" textFill="WHITE" />
-      <JFXButton buttonType="RAISED" layoutX="121.0" layoutY="446.0" onAction="#btnJoinOnAction" prefHeight="30.0" prefWidth="161.0" ripplerFill="#f46200" style="-fx-background-color: ffffff; -fx-background-radius: 7;" text="Join" textFill="#f46200">
+      <PasswordField fx:id="txtPassword" layoutX="61.0" layoutY="411.0" prefHeight="24.0" prefWidth="279.0" style="-fx-background-radius: 20;" />
+      <Label layoutX="115.0" layoutY="525.0" text="Alread have an account :)" textFill="WHITE" />
+      <JFXButton buttonType="RAISED" layoutX="121.0" layoutY="457.0" onAction="#btnSaveOnAction" prefHeight="30.0" prefWidth="161.0" ripplerFill="#f46200" style="-fx-background-color: ffffff; -fx-background-radius: 7;" text="Login" textFill="#f46200">
          <font>
             <Font name="System Bold" size="22.0" />
          </font>
       </JFXButton>
-      <Button layoutX="159.0" layoutY="541.0" mnemonicParsing="false" onAction="#btnSignFormAction" style="-fx-background-color: transparent;" text="Sign up" textFill="WHITE" underline="true">
+      <Button layoutX="174.0" layoutY="548.0" mnemonicParsing="false" onAction="#btnJoinFormAction" style="-fx-background-color: transparent;" text="Join" textFill="WHITE" underline="true">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
+      <Label layoutX="118.0" layoutY="272.0" text="Create an account" textFill="WHITE">
+         <font>
+            <Font name="KacstOne" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
