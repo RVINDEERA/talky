@@ -1,7 +1,9 @@
 package lk.ijse.talky.client;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.talky.controller.ChatFormController;
@@ -21,71 +23,47 @@ public class Client implements Runnable , Serializable {
     }
 
     private final Socket socket;
-    private final DataInputStream dataInputStream;
-    private final DataOutputStream dataOutputStream;
+    private final DataInputStream inputStream;
+    private final DataOutputStream outputStream;
     private ChatFormController chatFormController;
 
     public Client(String name) throws IOException {
-        this.name=name;
-        socket = new Socket("localhost",3000 );
-        dataInputStream = new DataInputStream(socket.getInputStream());
-        dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        this.name = name;
 
-        dataOutputStream.writeUTF(name);
-        dataOutputStream.flush();
+        socket = new Socket("localhost", 3000);
+        inputStream = new DataInputStream(socket.getInputStream());
+        outputStream = new DataOutputStream(socket.getOutputStream());
 
+        outputStream.writeUTF(name);
+        outputStream.flush();
         try {
             loadScene();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    private void loadScene() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chat_form.fxml"));
-        AnchorPane anchorPane = loader.load();
-        Scene scene = new Scene(anchorPane);
-        Stage stage = new Stage();
-        chatFormController = loader.getController();
-        chatFormController.setClient(this);
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.setTitle(name+ "'s Talky");
-        stage.setAlwaysOnTop(true);
-        stage.setResizable(false);
-        stage.show();
-
-        stage.setOnCloseRequest(event -> {
-            try{
-                dataInputStream.close();
-                dataOutputStream.close();
-                socket.close();
-            }catch (IOException e){
-                throw new RuntimeException(e);
-            }
-        });
-    }
 
     @Override
     public void run() {
         try {
-            dataOutputStream.writeUTF("-New Member Joined to Chat-");
-            dataOutputStream.flush();
+            outputStream.writeUTF("-New Member Joined to Chat-");
+            outputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         while (true) {
             try {
-                String message = dataInputStream.readUTF();
+                String message = inputStream.readUTF();
                 if (message.equals("image")) {
-                    recieveImage();
+                    receiveImage();
                 } else {
                     chatFormController.writeMessage(message);
                 }
             } catch (IOException e) {
                 try {
-                    dataInputStream.close();
-                    dataOutputStream.close();
+                    inputStream.close();
+                    outputStream.close();
                     socket.close();
                 } catch (IOException ignored) {
                     e.printStackTrace();
@@ -94,25 +72,64 @@ public class Client implements Runnable , Serializable {
         }
     }
 
-    public void sendMessage(String message) throws IOException {
-        dataOutputStream.writeUTF(message);
-        dataOutputStream.flush();
+    public void sendMessage(String msg) throws IOException {
+        outputStream.writeUTF(msg);
+        outputStream.flush();
+
     }
 
     public void sendImage(byte[] bytes) throws IOException {
-        dataOutputStream.writeUTF("*image*");
-        dataOutputStream.writeInt(bytes.length);
-        dataOutputStream.write(bytes);
-        dataOutputStream.flush();
+        outputStream.writeUTF("image");
+        outputStream.writeInt(bytes.length);
+        outputStream.write(bytes);
+        outputStream.flush();
     }
 
-    private void recieveImage() throws IOException {
-        String message = dataInputStream.readUTF();
-        int size = dataInputStream.readInt();
+    private void loadScene() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chatForm_form.fxml"));
+        Parent parent = loader.load();
+        chatFormController = loader.getController();
+        chatFormController.setClient(this);
+        stage.setResizable(false);
+        stage.setScene(new Scene(parent));
+        stage.setTitle(name + "'s Chat");
+        stage.show();
+
+        stage.setOnCloseRequest(event->{
+            try {
+                inputStream.close();
+                outputStream.close();
+
+                socket.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        new Alert(Alert.AlertType.INFORMATION, "Server connected").show();
+
+        stage.setOnCloseRequest(event -> {
+            try {
+                outputStream.writeUTF(" Has left! \uD83D\uDE13 ");
+                outputStream.flush();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void receiveImage() throws IOException {
+        String utf = inputStream.readUTF();
+        int size = inputStream.readInt();
         byte[] bytes = new byte[size];
-        dataInputStream.readFully(bytes);
-        //System.out.println(name+"- Image Recieved from "+ message);
-        chatFormController.setImage(bytes,message);
+        inputStream.readFully(bytes);
+
+        chatFormController.setImage(bytes, utf);
     }
 
+//    public String getName() {
+//        return name;
+//    }
 }

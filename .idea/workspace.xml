@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e16be180-6035-4739-8ec3-d092a783c09b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/ClientHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/view/chat_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/chat_form.fxml" afterDir="false" />
     </list>
@@ -43,22 +41,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/ramal/IdeaProjects/talky/src/main/resources/assests",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "editor.preferences.completion",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/ramal/IdeaProjects/talky/src/main/resources/assests&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="lk.ijse.talky.model" />
@@ -102,6 +100,7 @@
       <updated>1706639300152</updated>
       <workItem from="1706639301348" duration="5409000" />
       <workItem from="1706682319309" duration="22785000" />
+      <workItem from="1706763091579" duration="2975000" />
     </task>
     <servers />
   </component>
@@ -126,6 +125,16 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java</url>
+          <line>110</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java</url>
+          <line>98</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

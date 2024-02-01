@@ -8,24 +8,28 @@ public class Server implements Runnable {
     private static Server server;
     private final ServerSocket serverSocket;
     private Server() throws IOException {
-        serverSocket = new ServerSocket(3000);
-        System.out.println("Server Started Successfully");
+        this.serverSocket = new ServerSocket(3000);
+        System.out.println("Server Started...");
+
     }
     public static Server getServerSocket() throws IOException {
-        return server == null ? server = new Server() : server;
+        return server==null ? server = new Server() : server;
     }
+
+
     @Override
     public void run() {
-        while (!serverSocket.isClosed()){
-            System.out.println("Listeing");
+        while(!serverSocket.isClosed()){
+            System.out.println(("Listening..."));
             try {
-                Socket socket = serverSocket.accept();
-                ClientHandler clientHandler = new ClientHandler(socket);
+                Socket accepted = serverSocket.accept();
+                ClientHandler clientHandler = new ClientHandler(accepted);
                 Thread thread = new Thread(clientHandler);
                 thread.start();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
+
         }
     }
 }

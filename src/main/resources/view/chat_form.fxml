@@ -67,7 +67,7 @@
                </graphic></Button>
             <AnchorPane fx:id="emogiPane" layoutX="113.0" layoutY="-33.0" prefHeight="215.0" prefWidth="296.0">
                <children>
-                  <GridPane fx:id="emojiGridPane" layoutX="16.0" layoutY="10.0" prefHeight="196.0" prefWidth="264.0">
+                  <GridPane fx:id="emojiGridPane" layoutX="16.0" layoutY="47.0" prefHeight="196.0" prefWidth="264.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -48,39 +48,33 @@ public class ChatFormController {
     private UserDto userDto;
     private LoginFormController loginFormController;
     public Client client;
+    private final String[] emojis = {
+            "\uD83D\uDE00",
+            "\uD83D\uDE01",
+            "\uD83D\uDE02",
+            "\uD83D\uDE03",
+            "\uD83D\uDE04",
+            "\uD83D\uDE05",
+            "\uD83D\uDE06",
+            "\uD83D\uDE07",
+            "\uD83D\uDE08",
+            "\uD83D\uDE09",
+            "\uD83D\uDE0A",
+            "\uD83D\uDE0B",
+            "\uD83D\uDE0C",
+            "\uD83D\uDE0D",
+            "\uD83D\uDE0E",
+            "\uD83D\uDE0F",
+            "\uD83D\uDE10",
+            "\uD83D\uDE11",
+            "\uD83D\uDE12",
+            "\uD83D\uDE13"
+    };
 
     public void initialize(){
         lblName.setText(LoginFormController.name);
-    }
-    private final String[] emojis = {
-            "\uD83D\uDE00", // 😀
-            "\uD83D\uDE01", // 😁
-            "\uD83D\uDE02", // 😂
-            "\uD83D\uDE03", // 🤣
-            "\uD83D\uDE04", // 😄
-            "\uD83D\uDE05", // 😅
-            "\uD83D\uDE06", // 😆
-            "\uD83D\uDE07", // 😇
-            "\uD83D\uDE08", // 😈
-            "\uD83D\uDE09", // 😉
-            "\uD83D\uDE0A", // 😊
-            "\uD83D\uDE0B", // 😋
-            "\uD83D\uDE0C", // 😌
-            "\uD83D\uDE0D", // 😍
-            "\uD83D\uDE0E", // 😎
-            "\uD83D\uDE0F", // 😏
-            "\uD83D\uDE10", // 😐
-            "\uD83D\uDE11", // 😑
-            "\uD83D\uDE12", // 😒
-            "\uD83D\uDE13"  // 😓
-    };
-    public void setClient(Client client) throws IOException {
-        this.client=client;
-        String message=" joined the chat";
-        appendText(message);
-        client.sendMessage(message);
 
-        emojiAnchorPane.setVisible(false);
+        emogiPane.setVisible(false);
         int buttonIndex = 0;
         for (int row = 0; row < 4; row++) {
             for (int column = 0; column < 4; column++) {
@@ -94,25 +88,30 @@ public class ChatFormController {
                 }
             }
         }
+    }
 
+    public void setClient(Client client) throws IOException {
+        this.client=client;
     }
 
     private void appendText(String message) {
-        if (message.startsWith(" joined")) {
-            HBox hBox = new HBox();
-            hBox.setStyle("-fx-alignment: center;-fx-fill-height: true;-fx-min-height: 50;-fx-pref-width: 520;-fx-max-width: 520;-fx-padding: 10");
-            Label messageLbl = new Label(message);
-            messageLbl.setStyle("-fx-background-color: rgb(244,98,0);-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: black;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
-            hBox.getChildren().add(messageLbl);
-            vBox.getChildren().add(hBox);
-        } else {
-            HBox hBox = new HBox();
-            hBox.setStyle("-fx-alignment: center-right;-fx-fill-height: true;-fx-min-height: 50;-fx-pref-width: 520;-fx-max-width: 520;-fx-padding: 10");
-            Label messageLbl = new Label(message);
-            messageLbl.setStyle("-fx-background-color:  #f46200;-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: #f6f4f4;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
-            hBox.getChildren().add(messageLbl);
-            vBox.getChildren().add(hBox);
-        }
+        HBox hBox = new HBox();
+        hBox.setStyle("-fx-alignment: center-right;-fx-fill-height: true;-fx-min-height: 50;-fx-pref-width: 520;-fx-max-width: 520;-fx-padding: 10");
+        Label messageLbl = new Label(message);
+        messageLbl.setStyle("-fx-background-color:  #f46200;-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: white;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
+        hBox.getChildren().add(messageLbl);
+        vBox.getChildren().add(hBox);
+    }
+
+    private JFXButton createEmojiButton(String emoji) {
+        JFXButton button = new JFXButton(emoji);
+        button.getStyleClass().add("emoji-button");
+        button.setOnAction(this::btnSendEmojiOnActioni);
+        button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setFillWidth(button, true);
+        GridPane.setFillHeight(button, true);
+        button.setStyle("-fx-font-size: 15; -fx-text-fill: #ffc400; -fx-background-color: #000000; -fx-border-radius: 50");
+        return button;
     }
 
     @FXML
@@ -132,12 +131,10 @@ public class ChatFormController {
                 byte[] bytes = Files.readAllBytes(selectedFile.toPath());
                 HBox hBox = new HBox();
                 hBox.setStyle("-fx-fill-height: true; -fx-min-height: 50; -fx-pref-width: 520; -fx-max-width: 520; -fx-padding: 10; -fx-alignment: center-right;");
-
-                // Display the image in an ImageView or any other UI component
                 ImageView imageView = new ImageView(new Image(new FileInputStream(selectedFile)));
                 imageView.setStyle("-fx-padding: 10px;");
-                imageView.setFitHeight(180);
-                imageView.setFitWidth(100);
+                imageView.setFitHeight(280);
+                imageView.setFitWidth(200);
 
                 hBox.getChildren().addAll(imageView);
                 vBox.getChildren().add(hBox);
@@ -151,31 +148,23 @@ public class ChatFormController {
 
     @FXML
     void btnSendOnAction(ActionEvent event) {
-        try{
-            String message=txtTypemsg.getText();
-            if(message!=null){
-                appendText(message);
-                client.sendMessage(message);
+        try {
+            String text = txtTypemsg.getText();
+            if (!text.equals("")) {
+                appendText(text);
+                client.sendMessage(text);
                 txtTypemsg.clear();
-            }else{
-                ButtonType ok = new ButtonType("OK");
-                ButtonType cancel = new ButtonType("Cancel");
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Enter message,It's empty. Is it ok?", ok, cancel);
-                alert.showAndWait();
-                ButtonType result = alert.getResult();
-                if(result.equals(ok)){
-                    client.sendMessage(null);
-                }
-                txtTypemsg.clear();
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "message is empty").show();
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Something went wrong : server down").show();
         }
     }
 
     @FXML
-    void txtTypingOnAction(ActionEvent event) {
-        btnSendOnAction(event);
+    void txtTypingOnAction(ActionEvent actionevent) {
+        btnSendOnAction(actionevent);
     }
 
 
@@ -200,9 +189,11 @@ public class ChatFormController {
         HBox hBox = new HBox();
         hBox.setStyle("-fx-alignment: center-left;-fx-fill-height: true;-fx-min-height: 50;-fx-pref-width: 520;-fx-max-width: 520;-fx-padding: 10");
         Label messageLbl = new Label(message);
-        messageLbl.setStyle("-fx-background-color:   #f46200;-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: white;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
+        messageLbl.setStyle("-fx-background-color:   #2980b9;-fx-background-radius:15;-fx-font-size: 18;-fx-font-weight: normal;-fx-text-fill: white;-fx-wrap-text: true;-fx-alignment: center-left;-fx-content-display: left;-fx-padding: 10;-fx-max-width: 350;");
         hBox.getChildren().add(messageLbl);
-        Platform.runLater(() -> vBox.getChildren().add(hBox));
-    }
+        Platform.runLater(() -> {
+            vBox.getChildren().add(hBox);
 
+        });
+    }
 }
