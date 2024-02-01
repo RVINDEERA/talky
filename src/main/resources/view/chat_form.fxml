@@ -22,7 +22,7 @@
                   <Image url="@../assests/talky_logo.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblName" layoutX="56.0" layoutY="16.0" prefHeight="16.0" prefWidth="153.0" textFill="WHITE">
+            <Label fx:id="lblName" layoutX="69.0" layoutY="16.0" prefHeight="21.0" prefWidth="140.0" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

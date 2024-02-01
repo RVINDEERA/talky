@@ -22,4 +22,22 @@ public class LoginModel {
         return resultSet.next();
     }
 
+    public UserDto getInfo(String name) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        String sql = "SELECT * FROM user WHERE name = ?";
+
+        try (PreparedStatement ptsm = connection.prepareStatement(sql)) {
+            ptsm.setString(1, name);
+
+            try (ResultSet resultSet = ptsm.executeQuery()) {
+                if (resultSet.next()) {
+                    String retrievedUserName = resultSet.getString("name");
+                    String retrievedPassword = resultSet.getString("pwd");
+
+                    return new UserDto(retrievedUserName,retrievedPassword);
+                }
+            }
+        }
+        return null;
+    }
 }

@@ -11,9 +11,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.talky.dto.UserDto;
 import lk.ijse.talky.model.LoginModel;
+import lk.ijse.talky.server.ClientHandler;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class LoginFormController {
     @FXML
@@ -25,34 +30,64 @@ public class LoginFormController {
     @FXML
     private TextField txtUserName;
     LoginModel loginModel =new LoginModel();
-    public static String name;
+
+    private static ArrayList<DataOutputStream> clientHandlersList = new ArrayList<>();
+
+    //  public static String name;
+    public void initialize() throws IOException {
+        startServer();
+    }
+
+    private void startServer() throws IOException {
+        new Thread(() -> {
+            try {
+                ServerSocket serverSocket = new ServerSocket(3001);
+                Socket socket;
+                while (true) {
+                    System.out.println("Server started");
+                    System.out.println("Waiting for clients...");
+                    socket = serverSocket.accept();
+                    System.out.println("Accepted...");
+                    ClientHandler clients = new ClientHandler(socket,clientHandlersList);
+                    new Thread(clients).start();
+
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
 
     @FXML
     void btnJoinOnAction(ActionEvent event) {
-        name = txtUserName.getText();
+        String name = txtUserName.getText();
         String pw = txtPassword.getText();
 
         try {
-            boolean isValidUser = LoginModel.validUser(name,pw);
-            if(isValidUser){
-                txtUserName.clear();
-                txtPassword.clear();
-
+            boolean isValid = loginModel.validUser(name,pw);
+            if (isValid) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/chat_form.fxml"));
                 AnchorPane anchorPane = loader.load();
                 Scene scene = new Scene(anchorPane);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.centerOnScreen();
-                stage.setTitle(name+ "'s Talky");
-                stage.setAlwaysOnTop(true);
                 stage.setResizable(false);
+                stage.setTitle("talky");
                 stage.show();
-            }else{
-                new Alert(Alert.AlertType.ERROR,"Wrong Username or Password").show();
+
+                UserDto userDto = loginModel.getInfo(name);
+                ChatFormController chatFormController= loader.getController();
+                chatFormController.setUser(userDto);
+                txtUserName.setText("");
+                txtPassword.setText("");
+
+            } else {
+                new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

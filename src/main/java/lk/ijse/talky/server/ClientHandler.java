@@ -10,69 +10,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientHandler implements  Runnable{
-    public static final List<ClientHandler> clientHandlersList = new ArrayList<>();
+    // public static final List<ClientHandler> clientHandlersList = new ArrayList<>();
     public static ChatFormController chatFormController;
     private final Socket socket;
-    private final DataInputStream inputStream;
-    private final DataOutputStream outputStream;
-    private final String clientName;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
+    // private final String clientName;
+    private static ArrayList<DataOutputStream> clientOutputStreams;
 
-    public ClientHandler(Socket socket) throws IOException {
+
+    public ClientHandler(Socket socket, ArrayList<DataOutputStream> clientOutputStreams) throws IOException {
         this.socket = socket;
-        inputStream = new DataInputStream(socket.getInputStream());
-        outputStream = new DataOutputStream(socket.getOutputStream());
-        clientName = inputStream.readUTF();
-        clientHandlersList.add(this);
+        this.clientOutputStreams = clientOutputStreams;
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        clientOutputStreams.add(dataOutputStream);
     }
-
 
     @Override
     public void run() {
-        l1: while (socket.isConnected()) {
-            try {
-                String utf = inputStream.readUTF();
-                if (utf.equals("image")) {
-                    receiveImage();
-                } else {
-                    for (ClientHandler handler : clientHandlersList) {
-                        if (!handler.clientName.equals(clientName)) {
-                            handler.sendMessage(clientName, utf);
-                        }
+        try {
+            while (true) {
+                String msg = dataInputStream.readUTF();
+                if (msg.equals("TEXT")) {
+                    String allMsg = dataInputStream.readUTF();
+                    if (allMsg != null) {
+                        broadcastMessage(allMsg); // Broadcast the message to all clients
+                    }
+                } else if (msg.equals("IMAGE")) {
+                    String img = dataInputStream.readUTF();
+                    int fileSize = dataInputStream.readInt();
+                    byte[] fileData = new byte[fileSize];
+                    dataInputStream.readFully(fileData);
+                    if (fileData != null) {
+                        broadcastImage(fileData,img);
                     }
                 }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                socket.close();
+                dataInputStream.close();
+                dataOutputStream.close();
             } catch (IOException e) {
-
-                clientHandlersList.remove(this);
-                System.out.println(clientName+" removed");
-                System.out.println(clientHandlersList.size());
-                break;
+                throw new RuntimeException(e);
             }
         }
     }
 
-    public void sendMessage(String sender, String msg) throws IOException {
-        outputStream.writeUTF(sender + ": " + msg);
-        outputStream.flush();
-    }
-
-    private void receiveImage() throws IOException {
-        int size = inputStream.readInt();
-        byte[] bytes = new byte[size];
-        inputStream.readFully(bytes);
-        for (ClientHandler handler : clientHandlersList) {
-            if (!handler.clientName.equals(clientName)) {
-                handler.sendImage(clientName, bytes);
-                System.out.println(clientName+" - image sent ");
+    private void broadcastImage(byte[] fileData, String img) {
+        for (DataOutputStream clientOutputStream : clientOutputStreams) {
+            try {
+                clientOutputStream.writeUTF("IMAGE");
+                clientOutputStream.writeUTF(img);
+                clientOutputStream.writeInt(fileData.length);
+                clientOutputStream.write(fileData);
+                clientOutputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
-    private void sendImage(String sender, byte[] bytes) throws IOException {
-        outputStream.writeUTF("image");
-        outputStream.writeUTF(sender);
-        outputStream.writeInt(bytes.length);
-        outputStream.write(bytes);
-        outputStream.flush();
-        System.out.println("Image Sent");
+    public static void broadcastMessage(String message) throws IOException {
+        for (DataOutputStream outputStream : clientOutputStreams) {
+            try {
+                outputStream.writeUTF("TEXT");
+                outputStream.writeUTF(message);
+                outputStream.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
+
 }
