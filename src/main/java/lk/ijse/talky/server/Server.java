@@ -8,7 +8,7 @@ public class Server implements Runnable {
     private static Server server;
     private final ServerSocket serverSocket;
     private Server() throws IOException {
-        serverSocket = new ServerSocket(1200);
+        serverSocket = new ServerSocket(3000);
         System.out.println("Server Started Successfully");
     }
     public static Server getServerSocket() throws IOException {
@@ -17,6 +17,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
         while (!serverSocket.isClosed()){
+            System.out.println("Listeing");
             try {
                 Socket socket = serverSocket.accept();
                 ClientHandler clientHandler = new ClientHandler(socket);

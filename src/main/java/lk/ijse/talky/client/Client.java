@@ -27,19 +27,16 @@ public class Client implements Runnable , Serializable {
 
     public Client(String name) throws IOException {
         this.name=name;
-//        if(pw==null){
-//        }else{
-//            this.pw=pw;
-//        }
-        this.socket = new Socket("localhost", 1200);
-        this.dataInputStream = new DataInputStream(socket.getInputStream());
-        this.dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        socket = new Socket("localhost",3000 );
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        dataOutputStream = new DataOutputStream(socket.getOutputStream());
+
         dataOutputStream.writeUTF(name);
         dataOutputStream.flush();
 
         try {
             loadScene();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -48,6 +45,8 @@ public class Client implements Runnable , Serializable {
         AnchorPane anchorPane = loader.load();
         Scene scene = new Scene(anchorPane);
         Stage stage = new Stage();
+        chatFormController = loader.getController();
+        chatFormController.setClient(this);
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.setTitle(name+ "'s Talky");
@@ -61,30 +60,43 @@ public class Client implements Runnable , Serializable {
                 dataOutputStream.close();
                 socket.close();
             }catch (IOException e){
-                System.out.println(e);
+                throw new RuntimeException(e);
             }
         });
     }
 
     @Override
     public void run() {
-        String message = "";
-        while(!message.equals("exit")){
-            try{
-                message = dataInputStream.readUTF();
-                if(message.equals("*image*")){
+        try {
+            dataOutputStream.writeUTF("-New Member Joined to Chat-");
+            dataOutputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        while (true) {
+            try {
+                String message = dataInputStream.readUTF();
+                if (message.equals("image")) {
                     recieveImage();
-                }else{
+                } else {
                     chatFormController.writeMessage(message);
                 }
-            }catch (IOException e){
+            } catch (IOException e) {
                 try {
+                    dataInputStream.close();
+                    dataOutputStream.close();
                     socket.close();
-                }catch (IOException ex){
-                    System.out.println(ex);
+                } catch (IOException ignored) {
+                    e.printStackTrace();
                 }
             }
         }
+    }
+
+    public void sendMessage(String message) throws IOException {
+        dataOutputStream.writeUTF(message);
+        dataOutputStream.flush();
     }
 
     public void sendImage(byte[] bytes) throws IOException {
@@ -94,17 +106,13 @@ public class Client implements Runnable , Serializable {
         dataOutputStream.flush();
     }
 
-
-
-
     private void recieveImage() throws IOException {
         String message = dataInputStream.readUTF();
         int size = dataInputStream.readInt();
         byte[] bytes = new byte[size];
         dataInputStream.readFully(bytes);
-        System.out.println(name+"- Image Recieved from "+ message);
+        //System.out.println(name+"- Image Recieved from "+ message);
         chatFormController.setImage(bytes,message);
     }
-
 
 }

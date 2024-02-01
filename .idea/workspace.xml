@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e16be180-6035-4739-8ec3-d092a783c09b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/client/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/controller/ChatFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/ClientHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/ClientHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lk/ijse/talky/server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/view/chat_form.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/view/chat_form.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +55,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -95,7 +101,7 @@
       <option name="presentableId" value="Default" />
       <updated>1706639300152</updated>
       <workItem from="1706639301348" duration="5409000" />
-      <workItem from="1706682319309" duration="15795000" />
+      <workItem from="1706682319309" duration="22785000" />
     </task>
     <servers />
   </component>

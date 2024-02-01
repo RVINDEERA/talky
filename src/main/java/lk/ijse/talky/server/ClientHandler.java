@@ -15,7 +15,6 @@ public class ClientHandler implements  Runnable{
     private final Socket socket;
     private final DataInputStream dataInputStream;
     private final DataOutputStream dataOutputStream;
-
     private final String clientName;
 
     public ClientHandler(Socket socket) throws IOException {
@@ -42,6 +41,8 @@ public class ClientHandler implements  Runnable{
                 }
             }catch (IOException e){
                 clientHandlersList.remove(this);
+                System.out.println(clientName+" removed");
+                System.out.println(clientHandlersList.size());
                 break;
             }
         }
@@ -55,6 +56,7 @@ public class ClientHandler implements  Runnable{
         for (ClientHandler clientHandler : clientHandlersList) {
             if (!clientHandler.clientName.equals(clientName)) {
                 clientHandler.sendImage(clientName, bytes);
+                System.out.println(clientName+" - image sent ");
             }
         }
     }
@@ -65,6 +67,8 @@ public class ClientHandler implements  Runnable{
         dataOutputStream.writeInt(bytes.length);
         dataOutputStream.write(bytes);
         dataOutputStream.flush();
+        System.out.println("Image Sent");
+
     }
 
     private void sendMessage(String clientName, String message) throws IOException {
