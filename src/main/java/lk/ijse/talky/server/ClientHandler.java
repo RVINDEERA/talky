@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientHandler implements  Runnable{
-    // public static final List<ClientHandler> clientHandlersList = new ArrayList<>();
     public static ChatFormController chatFormController;
     private final Socket socket;
     private final DataInputStream dataInputStream;

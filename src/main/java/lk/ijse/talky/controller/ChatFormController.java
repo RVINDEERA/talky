@@ -46,7 +46,6 @@ public class ChatFormController {
     public ScrollPane scrollPane;
     @FXML
     private TextField txtTypemsg;
-    // private Client client;
     public ChatFormController chatFormController;
     public UserDto userDto;
     private DataInputStream dataInputStream;
@@ -100,7 +99,7 @@ public class ChatFormController {
                                 vBox.getChildren().add(label);
                             }
                         });
-//                        SEND IMAGES
+
                     } else if (messageTyp.equals("IMAGE")) {
                         String message = dataInputStream.readUTF();
 
@@ -111,8 +110,8 @@ public class ChatFormController {
                         Platform.runLater(() -> {
                             ImageView imageView = new ImageView();
                             imageView.setPreserveRatio(true);
-                            imageView.setFitWidth(100); // Adjust the width as needed
-                            imageView.setFitHeight(100); // Adjust the height as needed
+                            imageView.setFitWidth(200);
+                            imageView.setFitHeight(200);
 
                             try {
                                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
@@ -200,7 +199,7 @@ public class ChatFormController {
                 try {
                     byte [] fileData = Files.readAllBytes(selectedFiles.toPath());
 
-                    // Send the image file to the server
+                    // Here server is sent image files
                     dataOutputStream.writeUTF("IMAGE");
                     dataOutputStream.writeUTF(sender);
                     dataOutputStream.writeInt(fileData.length);
@@ -220,7 +219,7 @@ public class ChatFormController {
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         GridPane.setFillWidth(button, true);
         GridPane.setFillHeight(button, true);
-        button.setStyle("-fx-font-size: 15; -fx-text-fill: #f46200; -fx-background-color: #F0F0F0; -fx-border-radius: 50");
+        button.setStyle("-fx-font-size: 15; -fx-text-fill: #f46200; -fx-background-color: #000000; -fx-border-radius: 50");
         return button;
     }
 
@@ -238,7 +237,7 @@ public class ChatFormController {
 
     public void txtTypingOnAction(ActionEvent actionEvent) {
         String sender = lblName.getText();
-        String message = txtTypemsg.getText().trim(); // Trim to remove leading/trailing spaces
+        String message = txtTypemsg.getText().trim(); //*
 
         try {
             dataOutputStream.writeUTF("TEXT");

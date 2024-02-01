@@ -44,7 +44,6 @@ public class LoginFormController {
                 ServerSocket serverSocket = new ServerSocket(3001);
                 Socket socket;
                 while (true) {
-                    System.out.println("Server started");
                     System.out.println("Waiting for clients...");
                     socket = serverSocket.accept();
                     System.out.println("Accepted...");
@@ -72,7 +71,7 @@ public class LoginFormController {
                 Scene scene = new Scene(anchorPane);
                 Stage stage = new Stage();
                 stage.setScene(scene);
-                stage.centerOnScreen();
+                //stage.centerOnScreen();
                 stage.setResizable(false);
                 stage.setTitle("talky");
                 stage.show();
